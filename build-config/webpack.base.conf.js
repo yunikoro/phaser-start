@@ -11,7 +11,8 @@ module.exports = {
     mode: 'development',
     context: path.resolve(__dirname, '../'),
     entry: {
-       start: resolve('./src/index.js')
+       start: resolve('./src/index.js'),
+       multScene: resolve('./src/multScene.js')
     },
     output: {
         filename: '[name].[hash].js',
@@ -61,6 +62,13 @@ module.exports = {
           filename: 'index.html',
           template: 'index.html',
           chunks: ['start'],
+          inject: true
+        }),
+        new HtmlWebpackPlugin({
+          title: 'multScene',
+          filename: 'mult-scene.html',
+          template: 'index.html',
+          chunks: ['multScene'],
           inject: true
         }),
     ]
