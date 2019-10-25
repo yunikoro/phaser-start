@@ -9,4 +9,10 @@ const game = new Phaser.Game({
     height: 272,
     parent,
     scene: [Scene1, Scene2],
+    physics: {
+        default: 'arcade',
+        arcade: {
+            debug: false
+        }
+    },
 })
