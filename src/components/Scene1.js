@@ -7,6 +7,7 @@ import smPlaneUrl from '../assets/enemy-small.png'
 import explosionUrl from '../assets/explosion.png'
 import powerupUrl from '../assets/power-up.png'
 import shipUrl from '../assets/ship.png'
+import bulletUrl from '../assets/laser-bolts.png'
 
 export default class Scene1 extends Phaser.Scene {
     constructor() {
@@ -41,6 +42,10 @@ export default class Scene1 extends Phaser.Scene {
         this.load.spritesheet('ship', shipUrl, {
             frameWidth: 16,
             frameHeight: 24
+        })
+        this.load.spritesheet('bullet', bulletUrl, {
+            frameWidth: 16,
+            frameWidth: 16,
         })
     }
     create() {

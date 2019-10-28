@@ -1,6 +1,8 @@
 import Phaser from 'phaser'
 import AcceCaler from './AcceCaler'
 import FpsIndicator from './FpsIndicator'
+import ShootTicker from './ShootTicker'
+import Bullet from './Bullet'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
@@ -9,6 +11,9 @@ export default class Scene2 extends Phaser.Scene {
             scene: this,
         })
         this.fpsIndicator = new FpsIndicator({
+            scene: this,
+        })
+        this.shootTicker = new ShootTicker({
             scene: this,
         })
     }
@@ -24,7 +29,7 @@ export default class Scene2 extends Phaser.Scene {
         this.smPlane = this.add.sprite(width / 2 + 50, -30, 'smPlane')
         this.fire = this.add.sprite(width / 2 + 50, height / 2, 'explosion')
         this.ship = this.add.sprite(width / 2, 2 * height / 3, 'ship')
-
+        this.bullet = this.add.sprite(width / 2, 2 * height / 3, 'bullet')
         
         this.bgPlane.setInteractive()
         this.mdPlane.setInteractive()
@@ -129,9 +134,10 @@ export default class Scene2 extends Phaser.Scene {
 
         this.text = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' })
         
+        this.projectiles = this.physics.add.group()
+        const bullet = new Bullet(this)
+
         this.acceCaler.calAcce()
-        const v1 = new Phaser.Math.Vector2(4, 5)
-        const v2 = new Phaser.Math.Vector2(2, 1)
 
     }
     update(time, delta) {
@@ -141,6 +147,8 @@ export default class Scene2 extends Phaser.Scene {
         this.flying(this.smPlane, 'smfly', 0.8)
         this.fire.anims.play('explo', true)
         this.tiller()
+        this.shooting(delta)
+        this.recycle()
         this.fpsIndicator.calFps(delta)
     }
     flying(plane, flag, speed) {
@@ -160,17 +168,22 @@ export default class Scene2 extends Phaser.Scene {
         // gameObj.stop()
         gameObj.anims.play('explo', true)
     }
-    acceCaler() {
-        this.input.on('pointerdown', () => {
-            const _pointer = new Phaser.Math.Vector2(pointer.x, pointer.y)
+    shooting(delta) {
+        this.shootTicker.tick(delta, () => {
+            const bullet = new Bullet(this)
         })
-        this.input.on('pointermove', () => {
-            
-            this.ismove = true
-        })
-        this.input.on('pointerup', () => {
-            this.ismove = false
-        })
+    }
+    recycle() {
+        const projectChildren = this.projectiles.getChildren()
+        if (!this.bulletIdx || this.bulletIdx >= projectChildren.length) {
+            this.bulletIdx = 0
+        }
+        if (projectChildren.length == 0) {
+            return
+        }
+
+        projectChildren[this.bulletIdx].update()
+        this.bulletIdx++
     }
     tiller(cb = () => {}) {
         const { activePointer: pointer } = this.input

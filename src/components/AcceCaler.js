@@ -11,6 +11,7 @@ export default class AcceCaler {
         this.scene.input.on('pointerdown', pointer => {
             const { x, y } = pointer
             this.startPos.set(x, y)
+            this.acce.set(0)
         })
         this.scene.input.on('pointermove', pointer => {
             const { x, y } = pointer
