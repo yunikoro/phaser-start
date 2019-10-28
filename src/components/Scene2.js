@@ -1,11 +1,16 @@
 import Phaser from 'phaser'
+import AcceCaler from './AcceCaler'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
+        this.acceCaler = new AcceCaler({
+            scene: this,
+        })
     }
     create() {
         const { width, height } = this.game.config
+
         this.add.text(20, 20, 'Playing game... 玩游戏', {font: '25px Arial', fill: 'yellow'})
         this.background = this.add.tileSprite(0, 0, width, height, 'background')
         this.background.setOrigin(0, 0)
@@ -108,6 +113,13 @@ export default class Scene2 extends Phaser.Scene {
         this.mdPlane.anims.play('mdfly', true)
         this.smPlane.anims.play('smfly', true)
         this.ship.anims.play('thrust', true)
+
+        this.text = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' })
+        
+        this.acceCaler.calAcce()
+        const v1 = new Phaser.Math.Vector2(4, 5)
+        const v2 = new Phaser.Math.Vector2(2, 1)
+
     }
     update() {
         this.background.tilePositionY -= 1
@@ -115,6 +127,7 @@ export default class Scene2 extends Phaser.Scene {
         this.flying(this.mdPlane, 'mdfly', 0.6)
         this.flying(this.smPlane, 'smfly', 0.8)
         this.fire.anims.play('explo', true)
+        this.tiller()
     }
     flying(plane, flag, speed) {
         // plane.anims.play(flag, true)
@@ -132,5 +145,41 @@ export default class Scene2 extends Phaser.Scene {
         gameObj.setTexture('explosion')
         // gameObj.stop()
         gameObj.anims.play('explo', true)
+    }
+    acceCaler() {
+        this.input.on('pointerdown', () => {
+            const _pointer = new Phaser.Math.Vector2(pointer.x, pointer.y)
+        })
+        this.input.on('pointermove', () => {
+            
+            this.ismove = true
+        })
+        this.input.on('pointerup', () => {
+            this.ismove = false
+        })
+    }
+    tiller() {
+        const { activePointer: pointer } = this.input
+        // if(pointer.x == pointer.prevPosition.x) {
+        //     this.ship.x += pointer.velocity.x / 10
+        //     this.ship.y += pointer.velocity.y / 10
+        // }
+        // debugger
+        this.ship.x += this.acceCaler.acce.x * 1.25
+        this.ship.y += this.acceCaler.acce.y * 1.25
+        
+        this.text.setText([
+            'x: ' + pointer.x,
+            'y: ' + pointer.y,
+            'mid x: ' + pointer.midPoint.x,
+            'mid y: ' + pointer.midPoint.y,
+            'velocity x: ' + pointer.velocity.x,
+            'velocity y: ' + pointer.velocity.y,
+            'movementX: ' + pointer.movementX,
+            'movementY: ' + pointer.movementY,
+            'moveTime: ' + pointer.movementX,
+            'prevPositionX: ' + pointer.prevPosition.x,
+            'prevPositionY: ' + pointer.prevPosition.y,
+        ])
     }
 }
