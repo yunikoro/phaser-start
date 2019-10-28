@@ -1,10 +1,14 @@
 import Phaser from 'phaser'
 import AcceCaler from './AcceCaler'
+import FpsIndicator from './FpsIndicator'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
         this.acceCaler = new AcceCaler({
+            scene: this,
+        })
+        this.fpsIndicator = new FpsIndicator({
             scene: this,
         })
     }
@@ -89,6 +93,15 @@ export default class Scene2 extends Phaser.Scene {
             frameRate: 20,
             repeat: -1
         })
+        this.anims.create({
+            key: 'shoot',
+            frames: this.anims.generateFrameNames('bullet', {
+                start: 2,
+                end: 3
+            }),
+            frameRate: 20,
+            repeat: -1
+        })
 
         this.powerUps = this.physics.add.group()
 
@@ -121,13 +134,14 @@ export default class Scene2 extends Phaser.Scene {
         const v2 = new Phaser.Math.Vector2(2, 1)
 
     }
-    update() {
+    update(time, delta) {
         this.background.tilePositionY -= 1
         this.flying(this.bgPlane, 'bgfly', 0.3)
         this.flying(this.mdPlane, 'mdfly', 0.6)
         this.flying(this.smPlane, 'smfly', 0.8)
         this.fire.anims.play('explo', true)
         this.tiller()
+        this.fpsIndicator.calFps(delta)
     }
     flying(plane, flag, speed) {
         // plane.anims.play(flag, true)
@@ -158,28 +172,9 @@ export default class Scene2 extends Phaser.Scene {
             this.ismove = false
         })
     }
-    tiller() {
+    tiller(cb = () => {}) {
         const { activePointer: pointer } = this.input
-        // if(pointer.x == pointer.prevPosition.x) {
-        //     this.ship.x += pointer.velocity.x / 10
-        //     this.ship.y += pointer.velocity.y / 10
-        // }
-        // debugger
         this.ship.x += this.acceCaler.acce.x * 1.25
         this.ship.y += this.acceCaler.acce.y * 1.25
-        
-        this.text.setText([
-            'x: ' + pointer.x,
-            'y: ' + pointer.y,
-            'mid x: ' + pointer.midPoint.x,
-            'mid y: ' + pointer.midPoint.y,
-            'velocity x: ' + pointer.velocity.x,
-            'velocity y: ' + pointer.velocity.y,
-            'movementX: ' + pointer.movementX,
-            'movementY: ' + pointer.movementY,
-            'moveTime: ' + pointer.movementX,
-            'prevPositionX: ' + pointer.prevPosition.x,
-            'prevPositionY: ' + pointer.prevPosition.y,
-        ])
     }
 }
