@@ -6,11 +6,12 @@ export default class Bullet extends Phaser.GameObjects.Sprite {
         const y = scene.ship.y
 
         super(scene, x, y, 'bullet')
+
         scene.projectiles.add(this)
         scene.add.existing(this)
         
         this.play('shoot')
-        scene.physics.world.enableBody(this)
+        // scene.physics.world.enableBody(this)
         this.body.velocity.y = -250
     }
     update() {

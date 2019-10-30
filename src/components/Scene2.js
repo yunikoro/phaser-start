@@ -3,6 +3,8 @@ import AcceCaler from './AcceCaler'
 import FpsIndicator from './FpsIndicator'
 import ShootTicker from './ShootTicker'
 import Bullet from './Bullet'
+import PowerUp from './PowerUp'
+import EnemiesPool from './EnemiesPool'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
@@ -28,14 +30,13 @@ export default class Scene2 extends Phaser.Scene {
         this.mdPlane = this.add.sprite(width / 2, -30, 'mdPlane')
         this.smPlane = this.add.sprite(width / 2 + 50, -30, 'smPlane')
         this.fire = this.add.sprite(width / 2 + 50, height / 2, 'explosion')
-        this.ship = this.add.sprite(width / 2, 2 * height / 3, 'ship')
-        this.bullet = this.add.sprite(width / 2, 2 * height / 3, 'bullet')
+        this.ship = this.physics.add.sprite(width / 2, 2 * height / 3, 'ship')
         
-        this.bgPlane.setInteractive()
-        this.mdPlane.setInteractive()
-        this.smPlane.setInteractive()
+        // this.bgPlane.setInteractive()
+        // this.mdPlane.setInteractive()
+        // this.smPlane.setInteractive()
 
-        this.input.on('gameobjectdown', this.booming, this)
+        // this.input.on('gameobjectdown', this.booming, this)
 
         this.anims.create({
             key: 'bgfly',
@@ -108,18 +109,28 @@ export default class Scene2 extends Phaser.Scene {
             repeat: -1
         })
 
-        this.powerUps = this.physics.add.group()
+        this.enemiesPool = new EnemiesPool({
+            scene: this,
+            config: {
+                maxSize: 16,
+            }
+        })
+        this.enemiesPool
 
+        this.powerUps = this.physics.add.group()
         const maxObject = 4
         for (let i = 0; i < maxObject; i++) {
-            const powerUp = this.physics.add.sprite(16, 16, 'powerUp')
+            const powerUp = new PowerUp({
+                scene: this,
+                config: {}
+            })
             this.powerUps.add(powerUp)
             powerUp.setRandomPosition(0, 0, width, height)
 
             if (Math.random() > 0.5) {
-                powerUp.play('red')
+                powerUp.setType('red')
             } else {
-                powerUp.play('blue')
+                powerUp.setType('blue')
             }
 
             powerUp.setVelocity(100, 100)
@@ -135,12 +146,20 @@ export default class Scene2 extends Phaser.Scene {
         this.text = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' })
         
         this.projectiles = this.physics.add.group()
-        const bullet = new Bullet(this)
+        // this.physics.add.collider(this.projectiles, this.powerUps, (projectiles, powerUp) => {
+        //     projectiles.destroy()
+        // })
+        this.physics.add.overlap(this.ship, this.powerUps, (ship, powerUp) => {
+            powerUp.disableBody(true, true)
+            // powerUp.destroy()
+        }, null, this)
 
         this.acceCaler.calAcce()
 
     }
     update(time, delta) {
+        this.enemiesPool.plant()
+        this.enemiesPool.reFly()
         this.background.tilePositionY -= 1
         this.flying(this.bgPlane, 'bgfly', 0.3)
         this.flying(this.mdPlane, 'mdfly', 0.6)
