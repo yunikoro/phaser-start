@@ -17,16 +17,24 @@ export default class EnemiesPool extends Phaser.Physics.Arcade.Group {
             const { width } = this.scene.game.config
             const x = Phaser.Math.Between(0, width)
             const randSeed = Math.random()
+            let type = ''
+            if(randSeed < 0.2) {
+                type = 'bgPlane'
+            } else if(randSeed >= 0.2 && randSeed < 0.5) {
+                type = 'mdPlane'
+            } else {
+                type = 'smPlane'
+            }
             const enemy = new Enemy({
                 scene: this.scene,
                 config: {
                     x,
                     y: -30,
-                    type: 'bgPlane'
+                    type
                 }
             })
             this.add(enemy)
-            enemy.emission(30)
+            enemy.emission()
             this.curIdx++
         } else {
             this.curIdx = 0

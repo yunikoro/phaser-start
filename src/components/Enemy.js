@@ -13,15 +13,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         if(type == 'bgPlane') {
             this.animsKey = 'bgfly'
             this.health = 6
-            this.velocityY = 30
+            this.velocityY = (30 + Math.random() * 10 )
         } else if(type == 'mdPlane') {
             this.animsKey = 'mdfly'
             this.health = 4
-            this.velocityY = 60
+            this.velocityY = (60 + Math.random() * 10 )
         } else {
             this.animsKey = 'smfly'
             this.health = 2
-            this.velocityY = 90
+            this.velocityY = (90 + Math.random() * 10 )
         }
     }
     emission(velocityY) {
