@@ -55,4 +55,22 @@ export default class EnemiesPool extends Phaser.Physics.Arcade.Group {
             this.curFlyIdx = 0
         }
     }
+    updateTick(delta) {
+        const enemies = this.getChildren()
+        enemies.forEach(enemy => {
+            enemy.tick(delta)
+        })
+    }
+    checkFire(fireHandler = () => {}) {
+        const curSize = this.getChildren().length
+        if(this.curFlyIdx < curSize) {
+            const enemy = this.getChildren()[this.curFlyIdx]
+            
+            enemy.tickFire(fireHandler)
+            
+            this.curFlyIdx++
+        } else {
+            this.curFlyIdx = 0
+        }
+    }
 }

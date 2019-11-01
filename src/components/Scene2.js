@@ -5,6 +5,7 @@ import ShootTicker from './ShootTicker'
 import Bullet from './Bullet'
 import PowerUp from './PowerUp'
 import EnemiesPool from './EnemiesPool'
+import WanderShotPool from './WanderShotPool'
 import AnimationLoader from './AnimationLoader'
 
 export default class Scene2 extends Phaser.Scene {
@@ -48,7 +49,9 @@ export default class Scene2 extends Phaser.Scene {
                 maxSize: 16,
             }
         })
-        this.enemiesPool
+        this.wanderShotPool = new WanderShotPool({
+            scene: this
+        })
 
         this.powerUps = this.physics.add.group()
         const maxObject = 4
@@ -88,6 +91,10 @@ export default class Scene2 extends Phaser.Scene {
     update(time, delta) {
         this.enemiesPool.plant()
         this.enemiesPool.reFly()
+        this.enemiesPool.updateTick(delta)
+        this.enemiesPool.checkFire(cannonConfig => {
+            this.wanderShotPool.fire(cannonConfig)
+        })
         this.background.tilePositionY -= 1
         this.fire.anims.play('explo', true)
         this.tiller()
