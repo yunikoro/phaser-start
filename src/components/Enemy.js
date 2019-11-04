@@ -44,7 +44,8 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
             fireHandler({
                 x: this.x,
                 y: this.y,
-                planeType: this.type
+                planeType: this.type,
+                planeObj: this
             })
             this.accumRound = 0
         }

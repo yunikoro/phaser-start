@@ -77,9 +77,10 @@ export default class Scene2 extends Phaser.Scene {
         this.text = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' })
         
         this.projectiles = this.physics.add.group()
-        // this.physics.add.collider(this.projectiles, this.powerUps, (projectiles, powerUp) => {
-        //     projectiles.destroy()
-        // })
+
+        this.physics.add.collider(this.projectiles, this.enemiesPool, (projectiles, powerUp) => {
+            // projectiles.destroy()
+        })
         this.physics.add.overlap(this.ship, this.powerUps, (ship, powerUp) => {
             powerUp.disableBody(true, true)
             // powerUp.destroy()
@@ -95,6 +96,7 @@ export default class Scene2 extends Phaser.Scene {
         this.enemiesPool.checkFire(cannonConfig => {
             this.wanderShotPool.fire(cannonConfig)
         })
+        this.wanderShotPool.release()
         this.background.tilePositionY -= 1
         this.fire.anims.play('explo', true)
         this.tiller()
