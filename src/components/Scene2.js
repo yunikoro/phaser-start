@@ -7,6 +7,7 @@ import PowerUp from './PowerUp'
 import EnemiesPool from './EnemiesPool'
 import WanderShotPool from './WanderShotPool'
 import AnimationLoader from './AnimationLoader'
+import Enemy from './Enemy'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
@@ -78,8 +79,14 @@ export default class Scene2 extends Phaser.Scene {
         
         this.projectiles = this.physics.add.group()
 
-        this.physics.add.collider(this.projectiles, this.enemiesPool, (projectiles, powerUp) => {
-            // projectiles.destroy()
+        this.physics.add.overlap(this.projectiles, this.enemiesPool, (projectiles, enemy) => {
+            projectiles.destroy()
+            enemy.health -= 1
+            if(enemy.health <= 0) {
+                this.booming(enemy, () => {
+                    enemy.destroy()
+                })
+            }
         })
         this.physics.add.overlap(this.ship, this.powerUps, (ship, powerUp) => {
             powerUp.disableBody(true, true)
@@ -104,10 +111,11 @@ export default class Scene2 extends Phaser.Scene {
         this.recycle()
         this.fpsIndicator.calFps(delta)
     }
-    booming(pointer, gameObj) {
+    booming(gameObj, handler = () => {}) {
         gameObj.setTexture('explosion')
         // gameObj.stop()
         gameObj.anims.play('explo', true)
+        gameObj.once('animationcomplete', handler)
     }
     shooting(delta) {
         this.shootTicker.tick(delta, () => {
