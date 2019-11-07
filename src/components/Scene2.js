@@ -92,6 +92,7 @@ export default class Scene2 extends Phaser.Scene {
             powerUp.disableBody(true, true)
             // powerUp.destroy()
         }, null, this)
+        // this.physics.add.overlap(this.ship, this.wanderShotPool, ())
 
         this.acceCaler.calAcce()
 

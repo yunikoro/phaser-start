@@ -9,6 +9,8 @@ import powerupUrl from '../assets/power-up.png'
 import shipUrl from '../assets/ship.png'
 import bulletUrl from '../assets/laser-bolts.png'
 
+import Button from './Button'
+
 export default class Scene1 extends Phaser.Scene {
     constructor() {
         super('bootGame')
@@ -50,6 +52,16 @@ export default class Scene1 extends Phaser.Scene {
     }
     create() {
         this.add.text(20, 20, 'Loading game...')
-        this.scene.start('playGame')
+        // this.scene.start('playGame')
+        this.btn = new Button({
+            scene: this,
+            config: {
+                text: '开始',
+                // width: 200,
+                // height: 40,
+                x: 100,
+                y: 100
+            },
+        })
     }
 }
