@@ -8,6 +8,7 @@ import explosionUrl from '../assets/explosion.png'
 import powerupUrl from '../assets/power-up.png'
 import shipUrl from '../assets/ship.png'
 import bulletUrl from '../assets/laser-bolts.png'
+import boardUrl from '../assets/billBoard.html'
 
 import Button from './Button'
 import CenterText from './CenterText'
@@ -50,6 +51,7 @@ export default class Scene1 extends Phaser.Scene {
             frameWidth: 16,
             frameWidth: 16,
         })
+        this.load.html('board', boardUrl)
     }
     create() {
         new CenterText(this, 128, 80, '征服全宇宙', { fontFamily: 'ali-light', fontSize: '32px' })

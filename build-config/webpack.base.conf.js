@@ -36,7 +36,7 @@ module.exports = {
                 ],
             },
             {
-                test: /\.(mp4|json|png|jpeg|jpg|ttf)$/,
+                test: /\.(mp4|json|png|jpeg|jpg|ttf|html)$/,
                 use: [
                   {
                     loader: 'file-loader',
