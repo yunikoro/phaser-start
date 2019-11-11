@@ -10,6 +10,7 @@ import shipUrl from '../assets/ship.png'
 import bulletUrl from '../assets/laser-bolts.png'
 
 import Button from './Button'
+import CenterText from './CenterText'
 
 export default class Scene1 extends Phaser.Scene {
     constructor() {
@@ -51,17 +52,36 @@ export default class Scene1 extends Phaser.Scene {
         })
     }
     create() {
-        this.add.text(20, 20, 'Loading game...')
-        // this.scene.start('playGame')
+        new CenterText(this, 128, 80, '征服全宇宙', { fontFamily: 'ali-light', fontSize: '32px' })
+
         this.btn = new Button({
             scene: this,
             config: {
-                text: '开始',
-                // width: 200,
-                // height: 40,
-                x: 100,
-                y: 100
+                text: '起飞',
+                width: 100,
+                height: 40,
+                x: 128,
+                y: 200,
+                style: {
+                    lineColor: 0xF1743F,
+                    fillColor: 0x000000,
+                    textStyle: {
+                        color: '#F1743F',
+                        fontSize: '20px',
+                    }
+                },
+                activeStyle: {
+                    lineColor: 0x000000,
+                    fillColor: 0xF1743F,
+                    textStyle: {
+                        color: '#000000',
+                        fontSize: '20px',
+                    }
+                }
             },
+        })
+        this.btn.regisHandler(() => {
+            this.scene.start('playGame')
         })
     }
 }

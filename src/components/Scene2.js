@@ -7,7 +7,6 @@ import PowerUp from './PowerUp'
 import EnemiesPool from './EnemiesPool'
 import WanderShotPool from './WanderShotPool'
 import AnimationLoader from './AnimationLoader'
-import Enemy from './Enemy'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
@@ -29,7 +28,6 @@ export default class Scene2 extends Phaser.Scene {
             scene: this
         })
 
-        this.add.text(20, 20, 'Playing game... 玩游戏', {font: '25px Arial', fill: 'yellow'})
         this.background = this.add.tileSprite(0, 0, width, height, 'background')
         this.background.setOrigin(0, 0)
 
