@@ -37,6 +37,7 @@ module.exports = {
             },
             {
                 test: /\.(mp4|json|png|jpeg|jpg|ttf|html)$/,
+                exclude: resolve('index.html'),
                 use: [
                   {
                     loader: 'file-loader',

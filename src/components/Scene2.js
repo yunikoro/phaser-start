@@ -7,6 +7,7 @@ import PowerUp from './PowerUp'
 import EnemiesPool from './EnemiesPool'
 import WanderShotPool from './WanderShotPool'
 import AnimationLoader from './AnimationLoader'
+import BillBoard from './BillBoard'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
@@ -94,6 +95,15 @@ export default class Scene2 extends Phaser.Scene {
 
         this.acceCaler.calAcce()
 
+        this.toast = new BillBoard({
+            scene: this,
+            config: {
+                cacheTag: 'board',
+                x: 128,
+                y: 120
+            },
+        })
+        this.toast.regisHandler()
     }
     update(time, delta) {
         this.enemiesPool.plant()

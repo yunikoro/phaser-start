@@ -1,11 +1,70 @@
 <style>
 .board {
-    width: 64px;
-    height: 64px;
-    background: red;
+    width: 128px;
+    height: 200px;
+    background: #FFFFF0;
+    overflow: auto;
+    border: 4px solid #FEC210;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.title {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 22px;
+    color: #9F2800;
+}
+.score-title {
+    padding-top: 5px;
+    display: flex;
+    justify-content: center;
+    color: #4C584F;
+}
+.score {
+    padding-top: 8px;
+    display: flex;
+    justify-content: center;
+    font-size: 32px;
+    color: #FF5908;
+}
+.button {
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+}
+.button > button {
+    font-family: "ali-light";
+    background-color: #9F2800;
+    outline: 0;
+    border: 0;
+    border-radius: 8px;
+    padding: 8px 15px;
+    color: #EEDDDD;
+    font-size: 16px;
+}
+.button > button:active {
+    background-color: #4C584F;
 }
 </style>
 
 <div class="board">
-
+    <div>
+        <div class="title">
+            <span>特大喜讯</span>
+        </div>
+        <div>
+            <div class="score-title">
+                <span>您的评分</span>
+            </div>
+            <div class="score">
+                <span id="score">85</span>
+            </div>
+        </div>
+    </div>
+    <div class="button">
+        <button id="restart">重新起航</button>
+    </div>
 </div>
