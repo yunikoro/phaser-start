@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import AcceCaler from './AcceCaler'
 import FpsIndicator from './FpsIndicator'
+import FpsDashBoard from './FpsDashBoard'
 import ShootTicker from './ShootTicker'
 import Bullet from './Bullet'
 import PowerUp from './PowerUp'
@@ -13,9 +14,6 @@ export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
         this.acceCaler = new AcceCaler({
-            scene: this,
-        })
-        this.fpsIndicator = new FpsIndicator({
             scene: this,
         })
         this.shootTicker = new ShootTicker({
@@ -73,8 +71,6 @@ export default class Scene2 extends Phaser.Scene {
             powerUp.setCollideWorldBounds(1)
             powerUp.setBounce(0.98)
         }
-
-        this.text = this.add.text(10, 10, 'Move the mouse', { font: '16px Courier', fill: '#00ff00' })
         
         this.projectiles = this.physics.add.group()
 
@@ -104,6 +100,7 @@ export default class Scene2 extends Phaser.Scene {
             },
         })
         this.toast.regisHandler()
+        this.fpsDashBoard = new FpsDashBoard(this, 5, 230)
     }
     update(time, delta) {
         this.enemiesPool.plant()
@@ -118,7 +115,7 @@ export default class Scene2 extends Phaser.Scene {
         this.tiller()
         this.shooting(delta)
         this.recycle()
-        this.fpsIndicator.calFps(delta)
+        this.fpsDashBoard.calFps(delta)
     }
     booming(gameObj, handler = () => {}) {
         gameObj.setTexture('explosion')
