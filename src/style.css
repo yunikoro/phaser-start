@@ -2,3 +2,8 @@
     font-family: "ali-light";
     src: url("./assets/Alibaba-PuHuiTi-Light.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "amatic-bold";
+    src: url("./assets/Amatic-Bold.ttf") format("truetype");
+}

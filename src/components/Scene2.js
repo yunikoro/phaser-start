@@ -9,10 +9,12 @@ import EnemiesPool from './EnemiesPool'
 import WanderShotPool from './WanderShotPool'
 import AnimationLoader from './AnimationLoader'
 import BillBoard from './BillBoard'
+import ScoreMeter from './ScoreMeter'
 
 export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
+        this.score = 0
         this.acceCaler = new AcceCaler({
             scene: this,
         })
@@ -77,11 +79,14 @@ export default class Scene2 extends Phaser.Scene {
         this.physics.add.overlap(this.projectiles, this.enemiesPool, (projectiles, enemy) => {
             projectiles.destroy()
             enemy.health -= 1
+            this.score += 1
             if(enemy.health <= 0) {
                 this.booming(enemy, () => {
                     enemy.destroy()
+                    this.score += 100
                 })
             }
+
         })
         this.physics.add.overlap(this.ship, this.powerUps, (ship, powerUp) => {
             powerUp.disableBody(true, true)
@@ -91,16 +96,17 @@ export default class Scene2 extends Phaser.Scene {
 
         this.acceCaler.calAcce()
 
-        this.toast = new BillBoard({
-            scene: this,
-            config: {
-                cacheTag: 'board',
-                x: 128,
-                y: 120
-            },
-        })
-        this.toast.regisHandler()
+        // this.toast = new BillBoard({
+        //     scene: this,
+        //     config: {
+        //         cacheTag: 'board',
+        //         x: 128,
+        //         y: 120
+        //     },
+        // })
+        // this.toast.regisHandler()
         this.fpsDashBoard = new FpsDashBoard(this, 5, 230)
+        this.scoreMeter = new ScoreMeter(this, 20, 240)
     }
     update(time, delta) {
         this.enemiesPool.plant()
@@ -116,6 +122,7 @@ export default class Scene2 extends Phaser.Scene {
         this.shooting(delta)
         this.recycle()
         this.fpsDashBoard.calFps(delta)
+        this.scoreMeter.updateScoreMeter(this.score)
     }
     booming(gameObj, handler = () => {}) {
         gameObj.setTexture('explosion')
