@@ -5,7 +5,7 @@ export default class ScoreMeter extends Phaser.GameObjects.Text {
         super(scene, x, y, text)
         this.scene = scene
 
-        this.depth = 8
+        this.depth = 8        
 
         scene.add.existing(this)
     }
@@ -16,6 +16,7 @@ export default class ScoreMeter extends Phaser.GameObjects.Text {
         for (let i = 0; i < maxLength - scoreStr.length; i++) {
             fullScore  = ''.concat('0', fullScore)
         }
+
         return fullScore
     }
     updateScoreMeter(score) {

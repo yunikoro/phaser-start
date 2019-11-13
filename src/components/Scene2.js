@@ -105,8 +105,8 @@ export default class Scene2 extends Phaser.Scene {
         //     },
         // })
         // this.toast.regisHandler()
-        this.fpsDashBoard = new FpsDashBoard(this, 5, 230)
-        this.scoreMeter = new ScoreMeter(this, 20, 240)
+        this.fpsDashBoard = new FpsDashBoard(this, 5, 245)
+        this.scoreMeter = new ScoreMeter(this, 150, 5)
     }
     update(time, delta) {
         this.enemiesPool.plant()
