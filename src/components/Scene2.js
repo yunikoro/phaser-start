@@ -1,6 +1,5 @@
 import Phaser from 'phaser'
 import AcceCaler from './AcceCaler'
-import FpsIndicator from './FpsIndicator'
 import FpsDashBoard from './FpsDashBoard'
 import ShootTicker from './ShootTicker'
 import Bullet from './Bullet'
@@ -17,6 +16,7 @@ export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
         this.score = 0
+        this.dead = false
         this.acceCaler = new AcceCaler({
             scene: this,
         })
@@ -50,7 +50,7 @@ export default class Scene2 extends Phaser.Scene {
         this.enemiesPool = new EnemiesPool({
             scene: this,
             config: {
-                maxSize: 16,
+                maxSize: 10,
             }
         })
         this.wanderShotPool = new WanderShotPool({
@@ -96,19 +96,30 @@ export default class Scene2 extends Phaser.Scene {
             powerUp.disableBody(true, true)
             // powerUp.destroy()
         }, null, this)
-        // this.physics.add.overlap(this.ship, this.wanderShotPool, ())
+        this.physics.add.overlap(this.ship, this.wanderShotPool, (ship, shot) => {
+            this.booming(ship, () => {
+                this.dead = true
+                ship.destroy()
+                this.toast = new BillBoard({
+                    scene: this,
+                    config: {
+                        score: this.score,
+                        cacheTag: 'board',
+                        x: 128 * dpr,
+                        y: 120 * dpr
+                    },
+                })
+                this.toast.regisHandler(() => {
+                    const theOtherScene = this.scene.get('playGame')
+                    theOtherScene.scene.start()
+                    this.dead = false
+                    this.score = 0
+                })
+            })
+        })
 
         this.acceCaler.calAcce()
 
-        // this.toast = new BillBoard({
-        //     scene: this,
-        //     config: {
-        //         cacheTag: 'board',
-        //         x: 128,
-        //         y: 120
-        //     },
-        // })
-        // this.toast.regisHandler()
         this.fpsDashBoard = new FpsDashBoard(this, 5 * dpr, 245 * dpr)
         this.scoreMeter = new ScoreMeter(this, 150 * dpr, 5 * dpr)
     }
@@ -117,7 +128,9 @@ export default class Scene2 extends Phaser.Scene {
         this.enemiesPool.reFly()
         this.enemiesPool.updateTick(delta)
         this.enemiesPool.checkFire(cannonConfig => {
-            this.wanderShotPool.fire(cannonConfig)
+            if(!this.dead) {
+                this.wanderShotPool.fire(cannonConfig)
+            }
         })
         this.wanderShotPool.release()
         this.background.tilePositionY -= 1
@@ -135,9 +148,11 @@ export default class Scene2 extends Phaser.Scene {
         gameObj.once('animationcomplete', handler)
     }
     shooting(delta) {
-        this.shootTicker.tick(delta, () => {
-            const bullet = new Bullet(this)
-        })
+        if(!this.dead) {
+            this.shootTicker.tick(delta, () => {
+                const bullet = new Bullet(this)
+            })
+        }
     }
     recycle() {
         const projectChildren = this.projectiles.getChildren()

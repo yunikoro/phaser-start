@@ -45,14 +45,14 @@ export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
             const shot1 = new Shot({
                 scene: this.scene,
                 config: {
-                    x: x - 5,
+                    x: x - 5 * dpr,
                     y
                 }
             })
             const shot2 = new Shot({
                 scene: this.scene,
                 config: {
-                    x: x + 5,
+                    x: x + 5 * dpr,
                     y
                 }
             })

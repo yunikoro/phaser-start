@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
+import { dpr } from '../config'
 
 export default class FpsDashBoard extends Phaser.GameObjects.Text {
     constructor(scene, x, y, text) {
-        super(scene, x, y, '', { fontSize: '10px' })
+        super(scene, x, y, '', { fontSize: `${10 * dpr}px` })
         this.scene = scene
         this.minFps = 120
         
