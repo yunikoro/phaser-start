@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { dpr } from '../config'
 
 export default class ScoreMeter extends Phaser.GameObjects.Text {
     constructor(scene, x, y, text = '') {
@@ -22,6 +23,6 @@ export default class ScoreMeter extends Phaser.GameObjects.Text {
     updateScoreMeter(score) {
         const fullScore = this.updateScore(score)
         this.setText(`score:${fullScore}`)
-        this.setStyle({ fontSize: '24px', fontFamily: 'amatic-bold' })
+        this.setStyle({ fontSize: `${24 * dpr}px`, fontFamily: 'amatic-bold' })
     }
 }

@@ -1,10 +1,13 @@
 import Phaser from 'phaser'
 
+import { dpr } from '../config'
+
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     constructor({ scene, config }) {
         const { x = 0, y = 0, type = 'bgPlane' } = config
         super(scene, x, y, type)
         this.scene = scene
+        this.setScale(dpr)
 
         this.scene.physics.world.enableBody(this)
         this.scene.add.existing(this)

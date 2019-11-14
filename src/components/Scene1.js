@@ -1,5 +1,7 @@
 import Phaser from 'phaser'
 
+import { dpr } from '../config'
+
 import desertBgUrl from '../assets/desert-backgorund.png'
 import bgPlaneUrl from '../assets/enemy-big.png'
 import mdPlaneUrl from '../assets/enemy-medium.png'
@@ -54,30 +56,32 @@ export default class Scene1 extends Phaser.Scene {
         this.load.html('board', boardUrl)
     }
     create() {
-        new CenterText(this, 128, 80, '征服全宇宙', { fontFamily: 'ali-light', fontSize: '32px' })
+        new CenterText(this, 128 * dpr, 80 * dpr, '流浪地球', { fontFamily: 'ali-light', fontSize: `${32 * dpr}px` })
 
         this.btn = new Button({
             scene: this,
             config: {
                 text: '起飞',
-                width: 100,
-                height: 40,
-                x: 128,
-                y: 200,
+                width: 100 * dpr,
+                height: 20 * dpr,
+                x: 128 * dpr,
+                y: 200 * dpr,
                 style: {
                     lineColor: 0xF1743F,
                     fillColor: 0x000000,
                     textStyle: {
+                        fontFamily: 'ali-light',
                         color: '#F1743F',
-                        fontSize: '20px',
+                        fontSize: `${20 * dpr}px`,
                     }
                 },
                 activeStyle: {
                     lineColor: 0x000000,
                     fillColor: 0xF1743F,
                     textStyle: {
+                        fontFamily: 'ali-light',
                         color: '#000000',
-                        fontSize: '20px',
+                        fontSize: `${20 * dpr}px`,
                     }
                 }
             },

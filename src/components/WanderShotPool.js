@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import Shot from './Shot'
+import { dpr } from '../config'
 
 export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
     constructor({ scene }) {
@@ -37,9 +38,9 @@ export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
             this.add(shot2)
             this.add(shot3)
 
-            shot1.emission(-30, 100)
-            shot2.emission(0, 116)
-            shot3.emission(30, 100)
+            shot1.emission(-30 * dpr, 100 * dpr)
+            shot2.emission(0 * dpr, 116 * dpr)
+            shot3.emission(30 * dpr, 100 * dpr)
         } else if (planeType == 'mdPlane') {
             const shot1 = new Shot({
                 scene: this.scene,
@@ -57,8 +58,8 @@ export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
             })
             this.add(shot1)
             this.add(shot2)
-            shot1.emission(0, 116)
-            shot2.emission(0, 116)
+            shot1.emission(0 * dpr, 116 * dpr)
+            shot2.emission(0 * dpr, 116 * dpr)
         } else {
             setTimeout(planeObj => {
                 const { x, y } = planeObj
@@ -70,7 +71,7 @@ export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
                     }
                 })
                 this.add(shot)
-                shot.emission(0, 150)
+                shot.emission(0 * dpr, 150 * dpr)
             }, 200, planeObj)
             setTimeout(planeObj => {
                 const { x, y } = planeObj
@@ -82,7 +83,7 @@ export default class WanderShotPool extends Phaser.Physics.Arcade.Group {
                     }
                 })
                 this.add(shot)
-                shot.emission(0, 150)
+                shot.emission(0, 150 * dpr)
             }, 400, planeObj)
         }
     }

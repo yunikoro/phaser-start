@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import { dpr } from '../config'
 
 export default class Button extends Phaser.GameObjects.Container {
     constructor({ scene, config }) {
@@ -15,10 +16,10 @@ export default class Button extends Phaser.GameObjects.Container {
             textStyle: {
                 color: '#000',
                 shadow: {
-                    offsetX: 1,
-                    offsetY: 1,
-                    color: '#666',
-                    fill: true
+                    // offsetX: 1,
+                    // offsetY: 1,
+                    // color: '#666',
+                    // fill: true
                 }
             }
         }
@@ -41,20 +42,20 @@ export default class Button extends Phaser.GameObjects.Container {
         this.text = new Phaser.GameObjects.Text(scene, 0, 0, text, textStyle)
         this.text.x = - this.text.displayWidth / 2
         this.text.y = - this.text.displayHeight / 2
-        this.text.depth = 8
+        this.text.depth = 16
         this.add(this.text)
 
         
-        this._width = width > this.text.displayWidth ? width : this.text.displayWidth + 15
-        this._height = height > this.text.displayHeight ? height : this.text.height + 8
+        this._width = width > this.text.displayWidth ? width : this.text.displayWidth + 15 * dpr
+        this._height = height > this.text.displayHeight ? height : this.text.height + 8 * dpr
         this.radius = radius ? radius : 8
 
         const interRect = new Phaser.Geom.Rectangle(- this._width / 2, - this._height / 2, this._width, this._height)
         this.roundRect = new Phaser.GameObjects.Graphics(scene)
         this.roundRect.lineStyle(4, lineColor, 1)
         this.roundRect.fillStyle(fillColor, 1)
-        this.roundRect.strokeRoundedRect(- this._width / 2, - this._height / 2, this._width, this._height, this.radius)
-        this.roundRect.fillRoundedRect(- this._width / 2, - this._height / 2, this._width, this._height, this.radius)
+        this.roundRect.strokeRect(- this._width / 2, - this._height / 2, this._width, this._height)
+        this.roundRect.fillRect(- this._width / 2, - this._height / 2, this._width, this._height)
         this.roundRect.setInteractive(interRect, Phaser.Geom.Rectangle.Contains)
         this.roundRect.depth = 1
         
@@ -69,8 +70,8 @@ export default class Button extends Phaser.GameObjects.Container {
         this.text.setStyle(textStyle)
         this.roundRect.lineStyle(4, lineColor, 1)
         this.roundRect.fillStyle(fillColor)
-        this.roundRect.strokeRoundedRect(- this._width / 2, - this._height / 2, this._width, this._height, this.radius)
-        this.roundRect.fillRoundedRect(- this._width / 2, - this._height / 2, this._width, this._height, this.radius)
+        this.roundRect.strokeRect(- this._width / 2, - this._height / 2, this._width, this._height)
+        this.roundRect.fillRect(- this._width / 2, - this._height / 2, this._width, this._height)
     }
     regisHandler(cb = () => {}) {
         this.roundRect.setInteractive().on('pointerdown', pointer => {

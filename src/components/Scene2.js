@@ -11,6 +11,8 @@ import AnimationLoader from './AnimationLoader'
 import BillBoard from './BillBoard'
 import ScoreMeter from './ScoreMeter'
 
+import { dpr } from '../config'
+
 export default class Scene2 extends Phaser.Scene {
     constructor() {
         super('playGame')
@@ -31,9 +33,11 @@ export default class Scene2 extends Phaser.Scene {
 
         this.background = this.add.tileSprite(0, 0, width, height, 'background')
         this.background.setOrigin(0, 0)
+        this.background.setScale(dpr)
 
-        this.fire = this.add.sprite(width / 2 + 50, height / 2, 'explosion')
+        // this.fire = this.add.sprite(width / 2 + 50, height / 2, 'explosion')
         this.ship = this.physics.add.sprite(width / 2, 2 * height / 3, 'ship')
+        this.ship.setScale(dpr)
         
         // this.bgPlane.setInteractive()
         // this.mdPlane.setInteractive()
@@ -105,8 +109,8 @@ export default class Scene2 extends Phaser.Scene {
         //     },
         // })
         // this.toast.regisHandler()
-        this.fpsDashBoard = new FpsDashBoard(this, 5, 245)
-        this.scoreMeter = new ScoreMeter(this, 150, 5)
+        this.fpsDashBoard = new FpsDashBoard(this, 5 * dpr, 245 * dpr)
+        this.scoreMeter = new ScoreMeter(this, 150 * dpr, 5 * dpr)
     }
     update(time, delta) {
         this.enemiesPool.plant()
@@ -117,7 +121,7 @@ export default class Scene2 extends Phaser.Scene {
         })
         this.wanderShotPool.release()
         this.background.tilePositionY -= 1
-        this.fire.anims.play('explo', true)
+        // this.fire.anims.play('explo', true)
         this.tiller()
         this.shooting(delta)
         this.recycle()
