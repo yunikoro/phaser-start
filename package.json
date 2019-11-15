@@ -4,7 +4,8 @@
   "description": "a phaser game start",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build-config/webpack.base.conf.js"
+    "dev": "webpack-dev-server --inline --progress --config build-config/webpack.base.conf.js",
+    "build:prod": "npx webpack --config build-config/webpack.prod.conf.js"
   },
   "repository": {
     "type": "git",
@@ -26,10 +27,14 @@
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "style-loader": "^1.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
